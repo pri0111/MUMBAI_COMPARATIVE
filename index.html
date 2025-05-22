@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPARATIVE STUDY</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <h1>
+        YEAR WISE COMPARISON OF DIFFERENT SERVICES
+        <a href="data.html">
+        <button style="
+    float: right;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  ">
+    DATA TABLE
+  </button>
+        </a>
+    </h1>
+
+ <div class="container">
+  <div class="box" id="box1">
+    <h2>Provisioning Services</h2>
+    <video src="PROVISIONING SERVICES.mp4" muted loop playsinline></video>
+  </div>
+
+  <div class="box" id="box2">
+    <h2>Regulating Services</h2>
+    <video src="REGULATING SERVICES.mp4" muted loop playsinline></video>
+  </div>
+
+  <div class="box" id="box3">
+    <h2>Supporting Services</h2>
+    <video src="SUPPORTING SERVICES.mp4" muted loop playsinline></video>
+  </div>
+
+  <div class="box" id="box4">
+    <h2>Cultural Services</h2>
+    <video src="CULTURAL SERVICES.mp4" muted loop playsinline></video>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const videos = document.querySelectorAll("video");
+
+    // 1. Ensure all videos are paused and reset
+    videos.forEach(video => {
+      video.pause();
+      video.currentTime = 0;
+    });
+
+    // 2. Wait for all videos to be fully loadable
+    const loadPromises = Array.from(videos).map(video => {
+      return new Promise(resolve => {
+        if (video.readyState >= 4) {
+          resolve();
+        } else {
+          video.addEventListener("canplaythrough", resolve, { once: true });
+        }
+      });
+    });
+
+    // 3. When all videos are ready, start them together
+    Promise.all(loadPromises).then(() => {
+      videos.forEach(video => {
+        video.currentTime = 0; // Ensure all start at 0
+      });
+
+      // Start in the same rendering frame (important for sync)
+      requestAnimationFrame(() => {
+        videos.forEach(video => {
+          video.play().catch(err => {
+            console.warn("Video play failed:", err);
+          });
+        });
+      });
+    });
+  });
+</script>
+</body>
+</html>
